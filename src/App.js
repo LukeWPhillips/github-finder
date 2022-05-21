@@ -2,29 +2,40 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import Alert from "./components/layout/Alert";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import User from "./pages/User";
 import NotFound from "./pages/NotFound";
+import { GithubProvider } from "./context/github/GithubContext";
+import { AlertProvider } from "./context/alert/AlertContext";
 
 //   the /* covers anything typed n that doesnt exist
-// eg http://localhost:3000/blahblah
+// (the routes are the url routes)the navbar component has the links
+// eg http://localhost:3000/blahbla
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col justify-between h-screen">
-        <Navbar />
-        <main className="container mx-auto pb-12 px-3">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/notfound" element={<NotFound />} />
-            <Route path="/*" element={<Home />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <GithubProvider>
+      <AlertProvider>
+        <Router>
+          <div className="flex flex-col justify-between h-screen">
+            <Navbar />
+            <main className="container mx-auto pb-12 px-3">
+              <Alert />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/user/:login" element={<User />} />
+                <Route path="/notfound" element={<NotFound />} />
+                <Route path="/*" element={<Home />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </AlertProvider>
+    </GithubProvider>
   );
 }
 
